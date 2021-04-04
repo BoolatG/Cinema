@@ -26,17 +26,17 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        //что происходит при нажатии кнопки
+        //что происходит при нажатии кнопки "детали"
         findViewById<View>(R.id.buttonShrek).setOnClickListener(){
              findViewById<TextView>(R.id.textShrek).setTextColor(Color.RED)
-            val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra(SecondActivity.EXTRA_NAME_SHREK, MovieData(shrekDetails, R.drawable.sh))
+            val intent = Intent(this, DescriptionActivity::class.java)
+            intent.putExtra(DescriptionActivity.EXTRA_NAME_SHREK, MovieData(shrekDetails, R.drawable.sh))
             startActivity(intent)
         }
         findViewById<Button>(R.id.buttonMx).setOnClickListener(){
             findViewById<TextView>(R.id.textMx).setTextColor(Color.GREEN)
-            val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra(SecondActivity.EXTRA_NAME_MX, MovieData(mxDetails, R.drawable.ma))
+            val intent = Intent(this, DescriptionActivity::class.java)
+            intent.putExtra(DescriptionActivity.EXTRA_NAME_MX, MovieData(mxDetails, R.drawable.ma))
             startActivity(intent)
         }
 
