@@ -5,4 +5,10 @@
 
     <string name="Шрек">Шрек</string>
     <string name="details">details</string>
+    <string name="favorites">favorites</string>
+    <string name="invite">invite</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="Favorites">Favorites</string>
+    <string name="empty_favourites_list_text">"Nothing's here"</string>
+    <string name="Details">Details</string>
 </resources>
