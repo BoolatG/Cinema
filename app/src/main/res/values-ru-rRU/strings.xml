@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Синема</string>
+
+    <string name="buttonShrek">Button</string>
+
+    <string name="invite">пригласить</string>
+    <string name="details">детали</string>
+    <string name="favorites">избранное</string>
+
+
+    <string name="Favorites">избранное</string>
+    <string name="empty_favourites_list_text">"Пусто"</string>
+    <string name="Details">детали</string>
+</resources>
