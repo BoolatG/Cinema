@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class FavoritesAdapter(val items: List<MovieItem>, private val emptyListTextView: TextView, private val clickListener: (movie: MovieItem) -> Unit):RecyclerView.Adapter<FavoritesViewHolder>() {
 
+    private val movies = items.toMutableList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         val holder = LayoutInflater.from(parent.context)
         val view = holder.inflate(R.layout.item_movie_favorites, parent, false)
@@ -16,13 +18,13 @@ class FavoritesAdapter(val items: List<MovieItem>, private val emptyListTextView
 
 
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
-        holder.bind(items[position])
-        setOnClickListenerForDetailsBtn(holder, items[position])
-        setOnClickListenerForDeleteBtn(holder, items[position], position)
+        holder.bind(movies[position])
+        setOnClickListenerForDetailsBtn(holder, movies[position])
+        setOnClickListenerForDeleteBtn(holder, movies[position], position)
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return movies.size
     }
   /*  private fun showStubIfListEmpty() {
         if (items.isEmpty()) {
@@ -34,10 +36,11 @@ class FavoritesAdapter(val items: List<MovieItem>, private val emptyListTextView
     private fun setOnClickListenerForDeleteBtn(holder: FavoritesViewHolder, movie: MovieItem, position: Int) {
         holder.favDeleteBtn.setOnClickListener {
             movie.liked = false
-            Data.favMoviesList.removeAt(position)
+            movies.remove(movie)
+//            Data.favMoviesList.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemChanged(position)
-            notifyDataSetChanged()
+
+
             //showStubIfListEmpty()
         }
     }

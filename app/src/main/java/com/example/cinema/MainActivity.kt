@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity(),OnItemClickListener {
         //private const  val TAGi = "MainActivity-Caramba!"
         private const val EXTRA = "EXTRA"
         //private const val FAV = "FAV"
+        private const val REQ = 1
     }
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_main) }
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(),OnItemClickListener {
         findViewById<Button>(R.id.buttonFavorites).setOnClickListener {
             val intent = Intent(this, FavoritesActivity::class.java).apply {
             }
-            startActivity(intent)
+            startActivityForResult(intent, REQ)
         }
 
     }
@@ -74,7 +75,16 @@ class MainActivity : AppCompatActivity(),OnItemClickListener {
             putExtra(EXTRA, item)
         }
         startActivity(intent)
-        recyclerView.adapter?.notifyDataSetChanged()
+//        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == REQ){
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     //реализация клика в MainActivity для лайка
@@ -86,10 +96,10 @@ class MainActivity : AppCompatActivity(),OnItemClickListener {
         }
         recyclerView.adapter?.notifyDataSetChanged()
     }
-    override fun onResume() {
-        super.onResume()
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        recyclerView.adapter?.notifyDataSetChanged()
+//    }
 }
 
 

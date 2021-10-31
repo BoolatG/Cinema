@@ -24,6 +24,6 @@ object Data {
             R.drawable.panda
         )
     )
-    val favMoviesList:MutableList<MovieItem> =  mutableListOf<MovieItem>()
+//    val favMoviesList:MutableList<MovieItem> =  mutableListOf<MovieItem>()
 
 }

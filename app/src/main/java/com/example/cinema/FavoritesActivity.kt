@@ -48,10 +48,11 @@ class FavoritesActivity : AppCompatActivity() {
     } else {
         favRecycler.layoutManager = GridLayoutManager(this, 2)
     }
-        favRecycler.adapter = FavoritesAdapter(Data.favMoviesList, noFavItemTextView) { movie ->
+       val favMoviesList = Data.itemsMain.filter { it.liked }
+        favRecycler.adapter = FavoritesAdapter(favMoviesList, noFavItemTextView) { movie ->
             openFavoritesActivity(movie)
         }
-        if (Data.favMoviesList.isEmpty()) {
+        if (favMoviesList.isEmpty()) {
         noFavItemTextView.visibility = View.VISIBLE
 
        } else {

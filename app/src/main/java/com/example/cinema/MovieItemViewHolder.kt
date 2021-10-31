@@ -25,10 +25,14 @@ class MovieItemViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
 
         }
 
+        updateLike(item.liked)
+
         likeBtn.setOnClickListener{
             clickListener.onLikeClicked(item)
+            item.liked = !item.liked
+            updateLike(item.liked)
 
-            if(!item.liked){
+            /*if(!item.liked){
                 likeBtn.setImageResource(R.drawable.filled_heart)
                 item.liked = true
                 Data.favMoviesList.add(item)
@@ -37,11 +41,15 @@ class MovieItemViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
                 likeBtn.setImageResource(R.drawable.empty_heart)
                 item.liked = false
                 Data.favMoviesList.remove(item)
-            }
+            }*/
 
         }
 
     }
-
+    private fun updateLike(liked:Boolean){
+        if(liked){
+            likeBtn.setImageResource(R.drawable.filled_heart)}
+        else{likeBtn.setImageResource(R.drawable.empty_heart)}
+    }
 }
 
