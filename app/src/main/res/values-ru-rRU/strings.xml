@@ -12,4 +12,5 @@
     <string name="Favorites">избранное</string>
     <string name="empty_favourites_list_text">"Пусто"</string>
     <string name="Details">детали</string>
+    <string name="favourites">Favourites</string>
 </resources>

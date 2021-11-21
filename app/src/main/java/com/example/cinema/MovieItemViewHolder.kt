@@ -32,6 +32,7 @@ class MovieItemViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
             item.liked = !item.liked
             updateLike(item.liked)
 
+
             /*if(!item.liked){
                 likeBtn.setImageResource(R.drawable.filled_heart)
                 item.liked = true
@@ -48,8 +49,10 @@ class MovieItemViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
     }
     private fun updateLike(liked:Boolean){
         if(liked){
-            likeBtn.setImageResource(R.drawable.filled_heart)}
-        else{likeBtn.setImageResource(R.drawable.empty_heart)}
+            likeBtn.setImageResource(R.drawable.filled_heart)
+                        }
+        else{likeBtn.setImageResource(R.drawable.empty_heart)
+            }
     }
 }
 

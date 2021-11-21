@@ -35,11 +35,11 @@
         android:id="@+id/deleteBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:onClick="deleteClickListener"
         android:padding="6dp"
         app:layout_constraintBottom_toBottomOf="@id/favImageView"
         app:layout_constraintStart_toEndOf="@id/favImageView"
-        app:srcCompat="@drawable/delete"
-         />
+        app:srcCompat="@drawable/delete" />
 
     <Button
         android:id="@+id/favDetailsBtn"

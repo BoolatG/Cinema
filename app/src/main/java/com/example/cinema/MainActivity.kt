@@ -1,64 +1,69 @@
 package com.example.cinema
 
 import android.app.AlertDialog
-import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cinema.fragments.FragmentFavourites
+import com.example.cinema.fragments.FragmentMovieListMain
+import com.example.cinema.fragments.ShareFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class MainActivity : AppCompatActivity(),OnItemClickListener {
+class MainActivity : AppCompatActivity() {
     companion object {
-        //private const  val TAGi = "MainActivity-Caramba!"
-        private const val EXTRA = "EXTRA"
-        //private const val FAV = "FAV"
-        private const val REQ = 1
+        const val EXTRA = "EXTRA"
     }
-
-    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_main) }
+private lateinit var bottomNavigationView: BottomNavigationView
+private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_movie_list_main) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.movie_list_main)
-        initRecycler()
-        //кнопка "Пригласить друга"
-        findViewById<Button>(R.id.buttonInvite).setOnClickListener {
-            val inviteIntent = Intent(Intent.ACTION_SEND)
-            inviteIntent.setType("message/rfc822")
-            startActivity(inviteIntent)
+        setContentView(R.layout.activity_main_bottom_navigation)
+
+        bottomNavigationView = findViewById(R.id.nav_view)
+
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragments_container, FragmentMovieListMain())
+                .addToBackStack("FragmentMovieListMain()")
+                .commit()
         }
-        //кнопка "Избранное"
-        findViewById<Button>(R.id.buttonFavorites).setOnClickListener {
-            val intent = Intent(this, FavoritesActivity::class.java).apply {
+//        clicklistener для меню управления внизу экрана
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            supportFragmentManager.popBackStack()
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragments_container, FragmentMovieListMain())
+                        .addToBackStack("FilmsListFragment")
+                        .commit()
+                }
+                R.id.navigation_favourites -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragments_container, FragmentFavourites())
+                        .addToBackStack("FavouriteFilmsListFragment")
+                        .commit()
+                }
+                R.id.navigation_share -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragments_container, ShareFragment())
+                        .addToBackStack("InfoFragment")
+                        .commit()
+                }
             }
-            startActivityForResult(intent, REQ)
-        }
+            true
 
-    }
-
-    private fun initRecycler() {
-        if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.layoutManager = GridLayoutManager(this, 2)
-        } else {
-            recyclerView.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        }
-
-        recyclerView.adapter = MovieAdapter(Data.itemsMain, this)
-
-        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        recyclerView.addItemDecoration(itemDecoration)
-    }
+    }}
 
     //вызов диалогового окна "Выход из приложения"
     override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 1) {
+        super.onBackPressed()
+    } else {
+
+
         AlertDialog.Builder(this)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle("Closing Activity")
@@ -67,39 +72,7 @@ class MainActivity : AppCompatActivity(),OnItemClickListener {
             .setNegativeButton("No", null)
             .show()
     }
-
-
-    //реализация клика в MainActivity для кнопки Детали
-    override fun onItemClicked(item: MovieItem) {
-        val intent = Intent(this, MovieDescriptionActivity::class.java).apply {
-            putExtra(EXTRA, item)
-        }
-        startActivity(intent)
-//        recyclerView.adapter?.notifyDataSetChanged()
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == REQ){
-            recyclerView.adapter?.notifyDataSetChanged()
-        }
-        else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-    //реализация клика в MainActivity для лайка
-    override fun onLikeClicked(item: MovieItem) {
-        if (!item.liked) {
-            Toast.makeText(this, "Сохранено в избранное!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Удалено из избранного!", Toast.LENGTH_SHORT).show()
-        }
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-//    override fun onResume() {
-//        super.onResume()
-//        recyclerView.adapter?.notifyDataSetChanged()
-//    }
 }
 
 
@@ -111,46 +84,3 @@ class MainActivity : AppCompatActivity(),OnItemClickListener {
 
 
 
-//val shrekDetails = "Описание фильма про Шрека"
-//val mxDetails = "Описание фильма про Нео"}}
-
-
-//что происходит при нажатии кнопки
-// findViewById<View>(R.id.buttonShrek).setOnClickListener(){
-// findViewById<TextView>(R.id.textShrek).setTextColor(Color.RED)
-// val intent = Intent(this, SecondActivity::class.java)
-// intent.putExtra(SecondActivity.EXTRA_NAME_SHREK, MovieItem("Shrek",shrekDetails, R.drawable.sh))
-// startActivity(intent)
-// }
-// /*findViewById<Button>(R.id.buttonMx).setOnClickListener(){
-// findViewById<TextView>(R.id.textMx).setTextColor(Color.GREEN)
-// val intent = Intent(this, SecondActivity::class.java)
-// intent.putExtra(SecondActivity.EXTRA_NAME_MX, MovieItem(mxDetails, R.drawable.ma))
-// startActivity(intent)
-// }
-//
-//
-// //вызов сохраненного состояния при уничтожении активити
-// savedInstanceState?.getInt(EXTRA_SHREK)?.let{
-// findViewById<TextView>(R.id.textShrek).setTextColor(it)
-// }
-// savedInstanceState?.getInt(EXTRA_MX)?.let{
-// findViewById<TextView>(R.id.textMx).setTextColor(it)
-// }
-//
-// //кнопка "Пригласить друга"
-//findViewById<Button>(R.id.buttonInvite).setOnClickListener{
-//val inviteIntent = Intent(Intent.ACTION_SEND)
-// inviteIntent.setType("message/rfc822")
-//startActivity(inviteIntent)
-// }
-//
-//
-// }
-// //сохранение цвета названия фильма после нажатия кнопки
-// override fun onSaveInstanceState(outState: Bundle) {
-// super.onSaveInstanceState(outState)
-// Log.d(TAGi, "savedInstanceState called AAA")
-// outState.putInt(EXTRA_SHREK, findViewById<TextView>(R.id.textShrek).currentTextColor)
-// outState.putInt(EXTRA_MX, findViewById<TextView>(R.id.textMx).currentTextColor)
-// }

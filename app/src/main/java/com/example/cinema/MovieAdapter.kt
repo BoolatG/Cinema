@@ -28,7 +28,7 @@ class MovieAdapter( val items: List<MovieItem>, val itemClickListener: OnItemCli
     //написал интерфейс, чтобы реализовать клики на кнопки по методу https://medium.com/android-gate/recyclerview-item-click-listener-the-right-way-daecc838fbb9
     interface OnItemClickListener{
         fun onItemClicked(item: MovieItem)
-        fun onLikeClicked(item:MovieItem)
+        fun onLikeClicked(item: MovieItem)
 
 
 }

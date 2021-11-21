@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cinema.Data.itemsMain
+import com.example.cinema.fragments.FragmentFavourites
 
-class FavoritesAdapter(val items: List<MovieItem>, private val emptyListTextView: TextView, private val clickListener: (movie: MovieItem) -> Unit):RecyclerView.Adapter<FavoritesViewHolder>() {
+class FavoritesAdapter(val items: List<MovieItem>, private val emptyListTextView: TextView, private val clickListener: FragmentFavourites.FavouriteItemClickListener):RecyclerView.Adapter<FavoritesViewHolder>() {
 
-    private val movies = items.toMutableList()
+    val movies = itemsMain.filter{it.liked}.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         val holder = LayoutInflater.from(parent.context)
@@ -26,29 +28,30 @@ class FavoritesAdapter(val items: List<MovieItem>, private val emptyListTextView
     override fun getItemCount(): Int {
         return movies.size
     }
-  /*  private fun showStubIfListEmpty() {
-        if (items.isEmpty()) {
-            emptyListTextView.visibility = View.VISIBLE
-        } else {
-            emptyListTextView.visibility = View.GONE
-        }
-    }*/
+
     private fun setOnClickListenerForDeleteBtn(holder: FavoritesViewHolder, movie: MovieItem, position: Int) {
         holder.favDeleteBtn.setOnClickListener {
-            movie.liked = false
+           //movie.liked = false
             movies.remove(movie)
-//            Data.favMoviesList.removeAt(position)
+            clickListener.deleteClickListener(movie,position)
+
+            notifyDataSetChanged()
             notifyItemRemoved(position)
 
 
-            //showStubIfListEmpty()
+
+
+
+
+
         }
     }
 
     private fun setOnClickListenerForDetailsBtn(holder: FavoritesViewHolder, movie: MovieItem) {
         holder.favMovieDetailsBtn.setOnClickListener {
+            clickListener.detailsClickListener(movie)
             notifyDataSetChanged()
-            clickListener(movie)
+
         }
     }
 }
